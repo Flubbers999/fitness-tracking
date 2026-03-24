@@ -1,0 +1,16 @@
+CREATE TABLE Workouts
+( Workout_ID INTEGER PRIMARY KEY AUTOINCREMENT,
+Workout_type TEXT NOT NULL,
+Workout duration INTEGER NOT NULL,
+cals burned INTEGER NOT NULL,
+Date TEXT NOT NULL,
+CONSTRAINT  workout_type CHECK (Workout_type IN ("Weight Training","Swimming","Cycling","Incline walking","Fencing")));
+
+CREATE TABLE User
+( User_ID INTEGER PRIMARY KEY AUTOINCREMENT,
+Workout_ID INTEGER NOT NULL,
+First name TEXT NOT NULL,
+Last_name TEXT NOT NULL
+);
+
+
