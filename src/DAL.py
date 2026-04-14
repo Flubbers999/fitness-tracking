@@ -1,4 +1,4 @@
-from dtos.dtos import *
+from dtos import *
 import sqlite3
 
 class DAL:
@@ -66,8 +66,23 @@ class DAL:
                 print(f"Error fetching workout with id {row[0]}: User with id {row[1]} not found")
         return workouts
 
-    def edit_workout(self, workout_id: int, update_json: str) -> bool:
-        raise NotImplementedError
+    def edit_workout(self, workout_id: int, update_json: dict)-> bool:
+        cursor = self.db.cursor()
+        query = """
+        UPDATE Workouts
+        SET ? = ?
+        WHERE workout_id = ?
+        """
+        
+        for key, value in update_json.items():
+            try:
+                cursor.execute(query, (key, value, workout_id))
+            except Exception as e:
+                print(f"Error updating workout for key {key}: {e}")
+                print("Database returned to original state. No updates have been made.")
+                self.db.rollback()
+                return False
+        return True
     
     def delete_workout(self, workout_id: int) -> bool:
         cursor = self.db.cursor()
